@@ -1,8 +1,8 @@
 laenge_balken=3610;
 dicke_balken=120;
-hoehe_unterkante_balken1=150;
-hoehe_unterkante_balken2=1150;
-hoehe_unterkante_balken3=2100;
+hoehe_unterkante_balken1=170;
+hoehe_unterkante_balken2=1145;
+hoehe_unterkante_balken3=2110;
 dicke_brett=20;
 breite_brett=170;
 hoehe_brett=hoehe_unterkante_balken3+dicke_balken;
