@@ -21,6 +21,13 @@ mitte_x_fenster_2=laenge_balken/4*3;
 mitte_y_fenster=(hoehe_unterkante_balken2 + dicke_balken + hoehe_unterkante_balken3)/2;
 
 
+module brett_innen(breite, dicke){
+    color([0.8,0.8,0.8]) cube([breite, dicke, hoehe_brett]);     
+    }
+
+module brett_aussen(breite, dicke){
+    color([0.9,0.9,0.9]) cube([breite, dicke, hoehe_brett]); 
+    }
 
 module wand(){
     // Wand frontal
@@ -31,13 +38,13 @@ module wand(){
     translate([laenge_balken,0,0]){cube([dicke_balken, dicke_balken, hoehe_unterkante_balken3+dicke_balken]);}
 
     for (i = [0 : anzahl_bretter-1]) {
-        translate([brett_mittenabstand * i, -dicke_brett ,0]) { 
-            cube([breite_brett, dicke_brett, hoehe_brett]); 
+        translate([brett_mittenabstand * i, -dicke_brett ,0]) {
+            brett_innen(breite_brett, dicke_brett); 
             }
         }
     for (i = [0 : anzahl_bretter-2]) {
         translate([brett_mittenabstand * i + versatz_aussenbrett, -dicke_brett*2 ,0]) { 
-            cube([breite_brett, dicke_brett, hoehe_brett]); 
+            brett_aussen(breite_brett, dicke_brett); 
             }
         }
 
@@ -48,12 +55,12 @@ module wand(){
 
     for (i = [0 : anzahl_bretter_ansatz-1]) {
         translate([laenge_balken+dicke_balken, brett_mittenabstand * i+dicke_balken ,0]) { 
-            cube([dicke_brett, breite_brett, hoehe_brett]); 
+            brett_innen(dicke_brett, breite_brett); 
             }
         }
     for (i = [0 : anzahl_bretter_ansatz-2]) {
         translate([laenge_balken+dicke_balken+dicke_brett, brett_mittenabstand * i + dicke_balken + versatz_aussenbrett, 0]) { 
-            cube([dicke_brett, breite_brett, hoehe_brett]); 
+            brett_aussen(dicke_brett, breite_brett); 
             }
         }
 
@@ -64,12 +71,12 @@ module wand(){
 
     for (i = [0 : anzahl_bretter_ansatz-1]) {
         translate([-dicke_brett-dicke_balken, brett_mittenabstand * i+dicke_balken ,0]) { 
-            cube([dicke_brett, breite_brett, hoehe_brett]); 
+            brett_innen(dicke_brett, breite_brett); 
             }
         }
     for (i = [0 : anzahl_bretter_ansatz-2]) {
         translate([-dicke_brett*2-dicke_balken, brett_mittenabstand * i + dicke_balken + versatz_aussenbrett, 0]) { 
-            cube([dicke_brett, breite_brett, hoehe_brett]); 
+            brett_aussen(dicke_brett, breite_brett); 
             }
         }
     }
