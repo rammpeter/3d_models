@@ -1,3 +1,6 @@
+// Balkenabstand oben 845 mm
+// Balkenabstand unten 855 mm
+
 laenge_balken=3610;
 dicke_balken=120;
 hoehe_unterkante_balken1=170;
@@ -12,14 +15,14 @@ anzahl_bretter_ansatz=4;
 brett_mittenabstand = (laenge_balken-breite_brett)/(anzahl_bretter-1);
 versatz_aussenbrett=brett_mittenabstand- (brett_mittenabstand-breite_brett)/2 - breite_brett/2;
 
-breite_fenster=1200;
-hoehe_fenster=700;
+breite_fenster=1450;
+hoehe_fenster=830;
 dicke_glas=6;
-ueberstand_glas = 10;
-mitte_x_fenster_1=laenge_balken/4;
-mitte_x_fenster_2=laenge_balken/4*3;
-mitte_y_fenster=(hoehe_unterkante_balken2 + dicke_balken + hoehe_unterkante_balken3)/2;
-
+ueberstand_glas = 15;
+mitte_x_fenster=laenge_balken/2;
+mitte_y_fenster_1=(hoehe_unterkante_balken2 + dicke_balken + hoehe_unterkante_balken3)/2;
+mitte_y_fenster_2=(hoehe_unterkante_balken1 + dicke_balken + hoehe_unterkante_balken2)/2;
+versatz_fenster_x=-400;
 
 module brett_innen(breite, dicke){
     color([0.8,0.8,0.8]) cube([breite, dicke, hoehe_brett]);     
@@ -68,6 +71,10 @@ module wand(){
     translate([-dicke_balken,dicke_balken,hoehe_unterkante_balken1]){cube([dicke_balken, breite_ansatz, dicke_balken]);}
     translate([-dicke_balken,dicke_balken,hoehe_unterkante_balken2]){cube([dicke_balken, breite_ansatz, dicke_balken]);}
     translate([-dicke_balken,dicke_balken,hoehe_unterkante_balken3]){cube([dicke_balken, breite_ansatz, dicke_balken]);}
+    // diagonaler Balken
+    translate([-dicke_balken,dicke_balken/2,hoehe_unterkante_balken1]){
+        rotate([45,0,0]){cube([dicke_balken, breite_ansatz*sqrt(2), dicke_balken]);}
+        }
 
     for (i = [0 : anzahl_bretter_ansatz-1]) {
         translate([-dicke_brett-dicke_balken, brett_mittenabstand * i+dicke_balken ,0]) { 
@@ -98,12 +105,12 @@ module fenster_glas(mitte_x, mitte_y){
 difference(){
     wand();
     union(){
-        fenster_loch(mitte_x_fenster_1, mitte_y_fenster);
-        fenster_loch(mitte_x_fenster_2, mitte_y_fenster);
+        fenster_loch(mitte_x_fenster+versatz_fenster_x, mitte_y_fenster_1);
+        fenster_loch(mitte_x_fenster-versatz_fenster_x, mitte_y_fenster_2);
         }
     }
-fenster_glas(mitte_x_fenster_1, mitte_y_fenster);
-fenster_glas(mitte_x_fenster_2, mitte_y_fenster);
+fenster_glas(mitte_x_fenster+versatz_fenster_x, mitte_y_fenster_1);
+fenster_glas(mitte_x_fenster-versatz_fenster_x, mitte_y_fenster_2);
     
 
 
