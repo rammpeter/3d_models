@@ -1,55 +1,85 @@
-$fn = 50;
-dicke_flach = 6;
+$fn = 41;
+dicke_flach = 5;
 radius_dick = 14;
-radius_vorn_aussen = 5.5;
+radius_vorn_aussen = 5.8;
+radius_vorn_innen = 3.6;
 laenge_flach = 20;
-breite = 45;
+breite = 49;
 breite_zwick = 26;
-difference(){
-    union(){
-        cube([45,laenge_flach,dicke_flach]);
-        translate([0, 0, 5.5]){
-            rotate([0,90,0]){
-                cylinder(breite, radius_vorn_aussen, radius_vorn_aussen);
+// Radius der Minkowski-Kugel
+mn=1.4;
+
+module grundkoerper(){
+    difference(){
+        union(){
+            // Grundplatte
+            cube([breite-2*mn,laenge_flach,dicke_flach-2*mn]);
+            // Aussenzylinder klein
+            translate([0, 0, radius_vorn_aussen-mn]){
+                rotate([0,90,0]){
+                    cylinder(breite-2*mn, radius_vorn_aussen-mn, radius_vorn_aussen-mn);
+                    };
                 };
+            // Aussenzylinder groß    
+            translate([0,laenge_flach,radius_dick-mn]){
+                rotate([0,90,0]){
+                    cylinder(breite-2*mn, radius_dick-mn, radius_dick-mn);
+                    };
+                };    
             };
-        translate([0,laenge_flach,radius_dick]){
-            rotate([0,90,0]){
-                cylinder(45, radius_dick, radius_dick);
-                    cylinder(breite, 8, 8);
+        // Beginn difference    
+        union(){
+            // Ausschnitt Innenzylinder groß
+            translate([0, laenge_flach, radius_dick-mn]){
+                rotate([0,90,0]){
+                    cylinder(breite-2*mn, radius_dick-dicke_flach+mn, radius_dick-dicke_flach+mn);
+                    };
                 };
-            };    
+           // Entfernen Dreivierteilkreis unten    
+           translate([0,6,dicke_flach-2*mn]){
+               cube([breite,14,80]);
+               };     
+            };      
+          // Entfernen Dreiviertelkreis oben  
+           translate([0,6,radius_dick-mn]){
+               cube([breite,80,80]);
+               };     
+           // Ausschnitt links   
+           translate([-mn, -mn, dicke_flach-2*mn]){
+               cube([(breite-breite_zwick)/2+mn,10,40]);
+               };     
+           // Ausschnitt rechts    
+           translate([breite-(breite-breite_zwick)/2-2*mn, -mn,dicke_flach-2*mn]){
+               cube([(breite-breite_zwick)/2+mn,10,40]);
+               };  
         };
-    union(){
+    // Rundung Viertelkreis oben    
+    translate([0, laenge_flach+radius_dick-dicke_flach/2, radius_dick-mn]){
         rotate([0,90,0]){
-            translate([-radius_vorn_aussen, 0, 0]){
-                cylinder(breite, 3.5, 3.5);
-                };
-            translate([-radius_dick, laenge_flach, 0]){
-                cylinder(breite, radius_dick-dicke_flach, radius_dick-dicke_flach);
-                };
+            cylinder(breite-2*mn, dicke_flach/2-mn, dicke_flach/2-mn);
             };
-       translate([0,6,dicke_flach]){
-           cube([breite,14,80]);
-           };     
-        };        
-       translate([0,6,radius_dick]){
-           cube([breite,80,80]);
-           };     
-       translate([0, 0, dicke_flach]){
-           cube([(breite-breite_zwick)/2,10,80]);
-           };     
-       translate([breite-(breite-breite_zwick)/2,0,dicke_flach]){
-           cube([(breite-breite_zwick)/2,10,80]);
-           };  
-        translate([0,-3.2,5]){
-            rotate([30, 0, 0]){
-                cube([breite, 6, 10]);
-                };
-            };   
-    };
-rotate([0,90,0]){
-    translate([-radius_dick, laenge_flach+radius_dick-dicke_flach/2, 0]){
-        cylinder(45, dicke_flach/2, dicke_flach/2);
         };
+
     };
+
+module scharf_diff(){
+    translate([-mn, 0, radius_vorn_aussen-mn]){
+        rotate([0,90,0]){
+            cylinder(breite, radius_vorn_innen, radius_vorn_innen);
+            };
+        };    
+    // Schlitzausschnitt   
+    translate([-mn,-3.2,5-mn]){
+        rotate([30, 0, 0]){
+            cube([breite, 6, 10]);
+            };
+        };   
+    };
+    
+difference(){
+    minkowski(){
+        grundkoerper();
+        sphere(mn);
+        };
+    scharf_diff();
+    };    
