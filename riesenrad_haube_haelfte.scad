@@ -97,7 +97,15 @@ module aussen(){
     
 }
 
+module haelfte(){
+    translate([-20, -50, (breite+dicke)/2])
+        cube([50, 100, 50]);
+}
+
 difference(){
-    grund();
-    aussen();
+    difference(){
+        grund();
+        aussen();
+    };
+    haelfte();
 };
