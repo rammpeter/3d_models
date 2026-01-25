@@ -1,13 +1,13 @@
 // Nullpunkt ist die Knickkante zum Überhang auf der Innenseite
-$fn = 500;
+$fn = 250;
 // Maße innen
 breite = 76;
 laenge = 80;
 // Höhe incl. Überhang
 hoehe = 32;
-dicke = 1.5;
+dicke = 1;
 ueberhang = 16; 
-bogen_radius = 64;
+bogen_radius = 60;
 x_verschiebung_cylinder = bogen_radius-(hoehe-ueberhang);
 loch_durchmesser = 9;
 
