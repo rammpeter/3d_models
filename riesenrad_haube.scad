@@ -65,7 +65,7 @@ module aussen(){
     translate([-10, laenge/2+dicke, 0]){
         cube([bogen_radius*3, hoehe*2, breite+2*dicke]);
     };
-    translate([bogen_radius*1.5, -bogen_radius*1.5, 0]){
+    translate([bogen_radius*1.2, -bogen_radius*1.5, 0]){
         cube([hoehe*2, bogen_radius*3, breite+2*dicke]);
     };
     
