@@ -5,7 +5,7 @@ breite = 76;
 laenge = 80;
 // Höhe incl. Überhang
 hoehe = 32;
-dicke = 1;
+dicke = 1.3;
 ueberhang = 16; 
 bogen_radius = 60;
 x_verschiebung_cylinder = bogen_radius-(hoehe-ueberhang);
